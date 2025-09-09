@@ -11,7 +11,7 @@ pub struct ApiResponse<T> {
 impl<T> ApiResponse<T> {
     pub fn success(data: T) -> Self {
         ApiResponse {
-            code: 0,
+            code: 200,
             message: "success".to_string(),
             data,
         }
@@ -19,7 +19,7 @@ impl<T> ApiResponse<T> {
 
     pub fn success_with_message(data: T, message: String) -> Self {
         ApiResponse {
-            code: 0,
+            code: 200,
             message,
             data,
         }

@@ -29,7 +29,7 @@ impl std::fmt::Display for ApiError {
 
 impl actix_web::ResponseError for ApiError {
     fn error_response(&self) -> actix_web::HttpResponse {
-        actix_web::HttpResponse::BadRequest().json(&self.0)
+        actix_web::HttpResponse::InternalServerError().json(&self.0)
     }
 }
 
@@ -42,7 +42,7 @@ impl Into<CommonError> for RepositoryError {
     fn into(self) -> CommonError {
         CommonError {
             message: self.message,
-            code: 1,
+            code: 500,
         }
     }
 }
