@@ -12,4 +12,3 @@ pub trait TodoService: 'static + Sync + Send {
     async fn get(&self, todo_id: i32) -> Result<Todo, CommonError>;
     async fn delete(&self, todo_id: i32) -> Result<(), CommonError>;
 }
-

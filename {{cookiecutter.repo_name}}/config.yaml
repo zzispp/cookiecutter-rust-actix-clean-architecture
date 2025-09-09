@@ -1,0 +1,11 @@
+app:
+  name: "actix-clean-architecture"
+  host: "127.0.0.1"
+  port: 8080
+
+database:
+  url: "postgresql://postgres:1234@127.0.0.1:5432/postgres"
+
+logging:
+  level: "info"
+  format: "json"  # "json" or "pretty"

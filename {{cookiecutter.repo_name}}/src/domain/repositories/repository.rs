@@ -1,5 +1,5 @@
+use crate::domain::error::RepositoryError;
 use serde::{Deserialize, Serialize};
-use crate::domain::error::{RepositoryError};
 
 pub type RepositoryResult<T> = Result<T, RepositoryError>;
 

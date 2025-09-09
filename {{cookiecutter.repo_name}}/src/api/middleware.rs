@@ -1,9 +1,13 @@
 use std::future::{ready, Ready};
 
-use actix_web::{body::EitherBody, dev::{self, Service, ServiceRequest, ServiceResponse, Transform}, Error, HttpResponse, web};
-use futures_util::future::LocalBoxFuture;
-use log::info;
 use crate::domain::services::service_context::ServiceContextService;
+use actix_web::{
+    body::EitherBody,
+    dev::{self, Service, ServiceRequest, ServiceResponse, Transform},
+    web, Error, HttpResponse,
+};
+use futures_util::future::LocalBoxFuture;
+use tracing::info;
 
 pub struct ServiceContextMaintenanceCheck;
 
@@ -40,13 +44,16 @@ where
     dev::forward_ready!(service);
 
     fn call(&self, request: ServiceRequest) -> Self::Future {
-        let service_context_service =
-            request.app_data::<web::Data<dyn ServiceContextService>>().unwrap();
+        let service_context_service = request
+            .app_data::<web::Data<dyn ServiceContextService>>()
+            .unwrap();
 
         if service_context_service.is_maintenance_active() {
             info!("Service is in maintenance mode");
             let (request, _pl) = request.into_parts();
-            let response = HttpResponse::ServiceUnavailable().finish().map_into_right_body();
+            let response = HttpResponse::ServiceUnavailable()
+                .finish()
+                .map_into_right_body();
             return Box::pin(async { Ok(ServiceResponse::new(request, response)) });
         }
 

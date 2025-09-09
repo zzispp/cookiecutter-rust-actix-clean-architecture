@@ -1,16 +1,29 @@
+use actix_clean_architecture::{
+    config::AppConfig, container::Container, create_app::create_app, logging,
+};
+use actix_web::HttpServer;
 use std::sync::Arc;
-use actix_web::{HttpServer};
-use actix_clean_architecture::{container::Container, create_app::create_app};
-
 
 #[cfg(test)]
 mod tests;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let container = Arc::new(Container::new());
-    let server = HttpServer::new(move || { create_app(container.clone()) })
-    .bind(("127.0.0.1", 8080))?;
+    let config = AppConfig::new().expect("Failed to load configuration");
+
+    logging::init_tracing(&config);
+
+    tracing::info!("Starting {} server", config.app.name);
+    tracing::info!(
+        "Server will listen on {}:{}",
+        config.app.host,
+        config.app.port
+    );
+
+    let container = Arc::new(Container::new(&config));
+    let server = HttpServer::new(move || create_app(container.clone()))
+        .bind((config.app.host.clone(), config.app.port))?;
+
+    tracing::info!("Server started successfully");
     server.run().await
 }
-

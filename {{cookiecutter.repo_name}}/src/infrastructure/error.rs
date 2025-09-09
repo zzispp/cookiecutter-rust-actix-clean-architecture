@@ -1,8 +1,8 @@
-use diesel::r2d2;
-pub use actix_threadpool::{run, BlockingError};
 use crate::domain::error::RepositoryError;
+pub use actix_threadpool::{run, BlockingError};
+use diesel::r2d2;
 
-pub type AsyncPoolError <T> = BlockingError<T>;
+pub type AsyncPoolError<T> = BlockingError<T>;
 
 #[derive(Debug)]
 pub struct DieselRepositoryError(RepositoryError);

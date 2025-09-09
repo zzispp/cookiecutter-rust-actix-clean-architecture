@@ -15,9 +15,7 @@ pub struct TodoServiceImpl {
 
 impl TodoServiceImpl {
     pub fn new(repository: Arc<dyn TodoRepository>) -> Self {
-        TodoServiceImpl {
-            repository,
-        }
+        TodoServiceImpl { repository }
     }
 }
 
