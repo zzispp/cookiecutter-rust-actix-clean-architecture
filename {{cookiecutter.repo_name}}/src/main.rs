@@ -15,13 +15,15 @@ async fn main() -> std::io::Result<()> {
 
     tracing::info!("Starting {} server", config.app.name);
     tracing::info!(
-        "Server will listen on {}:{}",
+        "Server will listen on {}:{} with {} workers",
         config.app.host,
-        config.app.port
+        config.app.port,
+        config.app.workers
     );
 
     let container = Arc::new(Container::new(&config));
     let server = HttpServer::new(move || create_app(container.clone()))
+        .workers(config.app.workers)
         .bind((config.app.host.clone(), config.app.port))?;
 
     tracing::info!("Server started successfully");

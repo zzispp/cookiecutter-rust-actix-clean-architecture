@@ -13,6 +13,12 @@ pub struct App {
     pub name: String,
     pub host: String,
     pub port: u16,
+    #[serde(default = "default_workers")]
+    pub workers: usize,
+}
+
+fn default_workers() -> usize {
+    num_cpus::get() * 2
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]

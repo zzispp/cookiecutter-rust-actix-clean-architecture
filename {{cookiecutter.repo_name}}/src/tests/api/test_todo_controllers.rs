@@ -36,6 +36,7 @@ mod test_todo_controllers {
                 name: "test".to_string(),
                 host: "127.0.0.1".to_string(),
                 port: 8080,
+                workers: 1,
             },
             database: actix_clean_architecture::config::Database {
                 url: connection_string.clone(),
